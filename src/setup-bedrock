@@ -14,11 +14,12 @@ function setup_bedrock() {
 
     sudo mkdir $WP_DIR
 
-    echo -e "Please enter the admin email address for this project. Enter blank to default to your git user email:"
-    read EMAIL
-    if [ "$EMAIL" = "" ]; then
-        EMAIL=$(git config --get user.email)
-    fi
+    # echo -e "Please enter the admin email address for this project. Enter blank to default to your git user email:"
+    # read EMAIL
+    # if [ "$EMAIL" = "" ]; then
+    #     EMAIL=$(git config --get user.email)
+    # fi
+    EMAIL=$2
 
     # Set ownership for directory
     sudo chown -R $USER:www-data $WP_DIR

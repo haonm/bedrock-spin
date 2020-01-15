@@ -16,83 +16,91 @@ function environment_and_path() {
       exit
     fi
 
-    echo -e ${YELLOW}
-    echo -e "Choose an environment for this project:"
-    echo -e ${NC}
+    # echo -e ${YELLOW}
+    # echo -e "Choose an environment for this project:"
+    # echo -e ${NC}
 
-    PS3='Select the environment for this project by entering a number from the above list:'
-    select SITE_ENV in development staging production Quit;
-    do
-        case "$SITE_ENV" in
-            "development")
-            break
-            ;;
-            "staging")
-            break
-            ;;
-            "production")
-            break
-            ;;
-            "Quit")
-            break
-            ;;
-            *) echo invalid option;;
-        esac
+    # PS3='Select the environment for this project by entering a number from the above list:'
+    # select SITE_ENV in development staging production Quit;
+    # do
+    #     case "$SITE_ENV" in
+    #         "development")
+    #         break
+    #         ;;
+    #         "staging")
+    #         break
+    #         ;;
+    #         "production")
+    #         break
+    #         ;;
+    #         "Quit")
+    #         break
+    #         ;;
+    #         *) echo invalid option;;
+    #     esac
 
-    done
-    echo -e "${LB}$SITE_ENV${NC} selected"
-    echo -e ${YELLOW}
-    echo -e "Do you want to install this project as a sub-directory of"
-    echo -e "localhost (accessed at http://localhost/newsite/web), or as"
-    echo -e "a standalone domain (accessed at http://newsite.com)?"
-    echo -e ""
-    echo -e "Selecting 'localhost' won't require adjusting '/etc/hosts'"
-    echo -e "for local development. For a production environment, you'll"
-    echo -e "need the 'standalone' option."
-    echo -e "NOTE: if you choose 'localhost' you won't get an option to set"
-    echo -e "a virtual host for your project."
-    echo -e ${NC}
+    # done
+    
+    SITE_ENV=production
 
-    PS3='Select domain type for this project by entering a number from the list above:'
-    select DOMAIN_TYPE in localhost standalone Quit
-    do
-        case "$DOMAIN_TYPE" in
-            "localhost")
-            echo -e "${LB}$DOMAIN_TYPE${NC} selected"
-            break
-            ;;
-            "standalone")
-            echo -e "${LB}$DOMAIN_TYPE${NC} selected"
-            break
-            ;;
-            "Quit")
-            break
-            ;;
-            *) echo invalid option;;
-        esac
-    done
+    # echo -e "${LB}$SITE_ENV${NC} selected"
+    # echo -e ${YELLOW}
+    # echo -e "Do you want to install this project as a sub-directory of"
+    # echo -e "localhost (accessed at http://localhost/newsite/web), or as"
+    # echo -e "a standalone domain (accessed at http://newsite.com)?"
+    # echo -e ""
+    # echo -e "Selecting 'localhost' won't require adjusting '/etc/hosts'"
+    # echo -e "for local development. For a production environment, you'll"
+    # echo -e "need the 'standalone' option."
+    # echo -e "NOTE: if you choose 'localhost' you won't get an option to set"
+    # echo -e "a virtual host for your project."
+    # echo -e ${NC}
 
-    if [[ $DOMAIN_TYPE == standalone ]]; then
-        echo -e ${YELLOW}
-        echo -e "Set the root domain for this project."
-        echo -e "IMPORTANT: use the format 'example.com' or 'example.com/.subdirectory':"
-        echo -e ${NC}
-        #regex="^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$"
-        # Allow example.com/subdir - useful for staging sites
-        regex="^([a-z0-9]+(-[a-z0-9]+)*\.)+([a-z]{2,})+(\/[a-z0-9]*){0,}$"
+    # PS3='Select domain type for this project by entering a number from the list above:'
+    # select DOMAIN_TYPE in localhost standalone Quit
+    # do
+    #     case "$DOMAIN_TYPE" in
+    #         "localhost")
+    #         echo -e "${LB}$DOMAIN_TYPE${NC} selected"
+    #         break
+    #         ;;
+    #         "standalone")
+    #         echo -e "${LB}$DOMAIN_TYPE${NC} selected"
+    #         break
+    #         ;;
+    #         "Quit")
+    #         break
+    #         ;;
+    #         *) echo invalid option;;
+    #     esac
+    # done
 
-        SITE_NAME=""
-        while [[ ! $SITE_NAME =~ $regex ]]; do
-            echo "Enter a root domain in the format 'example.com':"
-            read SITE_NAME
-        done
-        WP_PATH=http://$SITE_NAME
-    else
-        # This option won't require adjusting `/etc/hosts` for local development work.
-        echo -e "Please enter the root directory (a sub-directory of localhost) for the new site:"
-        read SITE_NAME
-        WP_PATH=http://localhost/$SITE_NAME/web
-    fi
+    DOMAIN_TYPE=standalone
+
+    # if [[ $DOMAIN_TYPE == standalone ]]; then
+    #     echo -e ${YELLOW}
+    #     echo -e "Set the root domain for this project."
+    #     echo -e "IMPORTANT: use the format 'example.com' or 'example.com/.subdirectory':"
+    #     echo -e ${NC}
+    #     #regex="^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$"
+    #     # Allow example.com/subdir - useful for staging sites
+    #     regex="^([a-z0-9]+(-[a-z0-9]+)*\.)+([a-z]{2,})+(\/[a-z0-9]*){0,}$"
+
+    #     SITE_NAME=""
+    #     while [[ ! $SITE_NAME =~ $regex ]]; do
+    #         echo "Enter a root domain in the format 'example.com':"
+    #         read SITE_NAME
+    #     done
+    #     WP_PATH=http://$SITE_NAME
+    # else
+    #     # This option won't require adjusting `/etc/hosts` for local development work.
+    #     echo -e "Please enter the root directory (a sub-directory of localhost) for the new site:"
+    #     read SITE_NAME
+    #     WP_PATH=http://localhost/$SITE_NAME/web
+    # fi
+
+    SITE_NAME=$1
+    WP_PATH=http://$SITE_NAME
 
     echo "SITE_NAME is $SITE_NAME."
     echo "WP_PATH is $WP_PATH."
@@ -101,10 +109,10 @@ function environment_and_path() {
 
     # Open to search engines by default, but provide an option to discourage
     SEARCH_ENGINES=1
-    read -p "Do you want to DISCOURAGE search engines? [y/N]" yn
-    case $yn in
-        [Yy]* ) SEARCH_ENGINES=0;;
-        [Nn]* ) ;;
-        * ) echo "Please answer yes or no.";;
-    esac
+    # read -p "Do you want to DISCOURAGE search engines? [y/N]" yn
+    # case $yn in
+    #     [Yy]* ) SEARCH_ENGINES=0;;
+    #     [Nn]* ) ;;
+    #     * ) echo "Please answer yes or no.";;
+    # esac
 }

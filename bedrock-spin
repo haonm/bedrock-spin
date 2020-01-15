@@ -33,35 +33,6 @@ for FILENAME in $PROJECT_DIR/src/*; do
     fi
 done
 
-# Control execution
-# ------------------------------------------------------------------------------
-function options() {
-
-    read -p "Do you want to install and activate the Roots \"Soil\" plugin? [y/N]" yn
-    case $yn in
-        [Yy]* ) install_soil;;
-        [Nn]* ) echo "Soil not installed.";;
-        * ) echo "Please answer yes or no.";;
-    esac
-
-    if [[ $DOMAIN_TYPE = 'standalone' ]]; then
-        read -p "Do you want to set up and install an Apache virtual hosts directive? [y/N]" yn
-        case $yn in
-            [Yy]* ) apache_vhost;;
-            [Nn]* ) echo "No Apache VHost setup.";;
-            * ) echo "Please answer yes or no.";;
-        esac
-    fi
-
-    read -p "Do you want to set up the Sage Starter theme? [y/N]" yn
-    case $yn in
-        [Yy]* ) setup_theme;;
-        [Nn]* ) echo "Sage theme was not installed.";;
-        * ) echo "Please answer yes or no.";;
-    esac
-
-}
-
 # Run the functions in the correct order.
 #-------------------------------------------------------------------------------
 environment_and_path
@@ -69,4 +40,5 @@ setup_bedrock
 setup_database
 create_config
 configure_database
-options
+install_plugins
+apache_vhost
