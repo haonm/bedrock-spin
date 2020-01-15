@@ -16,30 +16,30 @@ function configure_database() {
     read WP_USERNAME
 
     # Install WordPress
-    sudo -u www-data -i -- wp core install --url=$WP_PATH --title="Basic Test Site" --admin_user=$WP_USERNAME --admin_password="${WP_PASS}" --admin_email=$EMAIL
+    wp core install --url=$WP_PATH --title="Basic Test Site" --admin_user=$WP_USERNAME --admin_password="${WP_PASS}" --admin_email=$EMAIL --allow-root
 
     # Discourage search engines
-    sudo -u www-data -i -- wp option update blog_public $SEARCH_ENGINES
+    wp option update blog_public $SEARCH_ENGINES --allow-root
 
     # delete all pages, and create homepage, about page, contact page
-    sudo -u www-data -i -- wp post delete $(wp post list --post_type='page' --format=ids)
-    sudo -u www-data -i -- wp post create --post_type=page --post_title=Home --post_status=publish --post_author=$(wp user get $WP_USERNAME --field=ID)
-    sudo -u www-data -i -- wp post create --post_type=page --post_title=About --post_status=publish --post_author=$(wp user get $WP_USERNAME --field=ID)
-    sudo -u www-data -i -- wp post create --post_type=page --post_title=Contact --post_status=publish --post_author=$(wp user get $WP_USERNAME --field=ID)
+    wp post delete $(wp post list --post_type='page' --format=ids) --allow-root
+    wp post create --post_type=page --post_title=Home --post_status=publish --post_author=$(wp user get $WP_USERNAME --field=ID) --allow-root
+    wp post create --post_type=page --post_title=About --post_status=publish --post_author=$(wp user get $WP_USERNAME --field=ID) --allow-root
+    wp post create --post_type=page --post_title=Contact --post_status=publish --post_author=$(wp user get $WP_USERNAME --field=ID) --allow-root
 
     # delete readme and license
     rm license.txt
     rm readme.html
 
     # set homepage as front page
-    sudo -u www-data -i -- wp option update show_on_front 'page'
+    wp option update show_on_front 'page' --allow-root
 
     # set homepage to be the new page
-    sudo -u www-data -i -- wp option update page_on_front $(wp post list --post_type=page --post_status=publish --posts_per_page=1 --pagename=home --field=ID --format=ids)
+    wp option update page_on_front $(wp post list --post_type=page --post_status=publish --posts_per_page=1 --pagename=home --field=ID --format=ids) --allow-root
 
     # set pretty urls
-    sudo -u www-data -i -- wp rewrite structure '/%postname%/' --hard
-    sudo -u www-data -i -- wp rewrite flush --hard
+    wp rewrite structure '/%postname%/' --hard --allow-root
+    wp rewrite flush --hard --allow-root
 
     echo -e ${YELLOW}
     echo -e "WordPress has been installed successfully."
