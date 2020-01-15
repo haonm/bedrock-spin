@@ -57,7 +57,7 @@ setup_theme() {
     fi
 
     printf "Activate Sage:\n"
-    wp theme activate $THEMENAME --allow-root
+    wp theme activate $THEMENAME
 
     read -p "Set up a new GitHub repo for $THEMENAME? [y/N]" yn
     case $yn in

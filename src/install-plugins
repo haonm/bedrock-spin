@@ -3,5 +3,5 @@
 # Install roots/soil
 function install_soil() {
     composer require roots/soil 3.7.1
-    wp plugin activate soil --allow-root
+    wp plugin activate soil
 }
