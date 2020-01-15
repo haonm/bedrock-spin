@@ -18,6 +18,10 @@ function configure_database() {
     # Install WordPress
     wp core install --url=$WP_PATH --title="Basic Test Site" --admin_user=$WP_USERNAME --admin_password="${WP_PASS}" --admin_email=$EMAIL --allow-root
 
+    # Install WordPress language
+    wp language core install vi_VN --allow-root
+    wp language core activate vi_VN --allow-root
+
     # Discourage search engines
     wp option update blog_public $SEARCH_ENGINES --allow-root
 

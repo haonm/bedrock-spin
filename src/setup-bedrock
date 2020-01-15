@@ -34,7 +34,7 @@ function setup_bedrock() {
     # re-write rules. If this isn't done, `http://example.com/wp-admin` won't
     # redirect to `http://example.com/wp/wp-admin`.
     cd $WP_DIR
-    echo -e 'apache_modules:\n   - mod_rewrite' >> wp-cli.yml
+    echo -e 'apache_modules:\n  - mod_rewrite' >> wp-cli.yml
 
     cd $WP_DIR/web
     touch .htaccess
