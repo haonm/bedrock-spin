@@ -24,6 +24,7 @@ function configure_database() {
     wp option update --allow-root blog_public $SEARCH_ENGINES
 
     # delete all pages, and create homepage, about page, contact page
+    echo -e "HNM delete all pages, and create homepage, about page, contact page"
     wp post delete $(wp post list --post_type='page' --format=ids)
     wp post create --post_type=page --post_title=Home --post_status=publish --post_author=$(wp user get $WP_USERNAME --field=ID)
     wp post create --post_type=page --post_title=About --post_status=publish --post_author=$(wp user get $WP_USERNAME --field=ID)
