@@ -16,10 +16,12 @@ function configure_database() {
     read WP_USERNAME
 
     # Install WordPress
-    wp core install --url=$WP_PATH --title="Basic Test Site" --admin_user=$WP_USERNAME --admin_password="${WP_PASS}" --admin_email=$EMAIL
+    echo -e "Install WordPress"
+    wp core install --allow-root --url=$WP_PATH --title="Basic Test Site" --admin_user=$WP_USERNAME --admin_password="${WP_PASS}" --admin_email=$EMAIL
 
     # Discourage search engines
-    wp option update blog_public $SEARCH_ENGINES
+    echo -e "Discourage search engines"
+    wp option update --allow-root blog_public $SEARCH_ENGINES
 
     # delete all pages, and create homepage, about page, contact page
     wp post delete $(wp post list --post_type='page' --format=ids)
