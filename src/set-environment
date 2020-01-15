@@ -99,7 +99,6 @@ function environment_and_path() {
     #     WP_PATH=http://localhost/$SITE_NAME/web
     # fi
 
-    SITE_NAME=$1
     WP_PATH=http://$SITE_NAME
 
     echo "SITE_NAME is $SITE_NAME."

@@ -14,10 +14,10 @@ function configure_database() {
     WP_PASS=$(random_password 32 alnum)
     echo -e "Enter a username. NOT 'ADMIN'!"
     # read WP_USERNAME
-    WP_USERNAME=${2%@*}
+    WP_USERNAME=$USER_NAME
 
     # Install WordPress
-    wp core install --url=$WP_PATH --title="$3" --admin_user=$WP_USERNAME --admin_password="${WP_PASS}" --admin_email=$EMAIL --allow-root
+    wp core install --url=$WP_PATH --title="$WEB_TITLE" --admin_user=$WP_USERNAME --admin_password="${WP_PASS}" --admin_email=$EMAIL --allow-root
 
     # Install WordPress language
     wp language core install vi --allow-root

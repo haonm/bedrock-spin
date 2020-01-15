@@ -47,9 +47,9 @@ function setup_database() {
     #     echo -e ${NC}
     #     echo -e ""
     # fi
-    DB_NAME=$1
+    DB_NAME=$USER_NAME
     DB_NAME+=_db
-    DB_USER=$1
+    DB_USER=$USER_NAME
     DB_USER+=_user
 
     # Set a strong alpha-numeric password for the DB

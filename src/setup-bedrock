@@ -19,7 +19,7 @@ function setup_bedrock() {
     # if [ "$EMAIL" = "" ]; then
     #     EMAIL=$(git config --get user.email)
     # fi
-    EMAIL=$2
+    # EMAIL=$2
 
     # Set ownership for directory
     sudo chown -R $USER:www-data $WP_DIR
