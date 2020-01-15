@@ -47,10 +47,12 @@ function setup_database() {
     #     echo -e ${NC}
     #     echo -e ""
     # fi
+    timestamp=$(date +%s)
+    
     DB_NAME=$USER_NAME
-    DB_NAME+=_db
+    DB_NAME+=_db_${timestamp}
     DB_USER=$USER_NAME
-    DB_USER+=_user
+    DB_USER+=_user_${timestamp}
 
     # Set a strong alpha-numeric password for the DB
     DB_PASS=$(random_password 32 alnum)
